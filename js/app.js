@@ -11,9 +11,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function validarCampo(e) {
 		if (e.target.value.trim() === "") {
-			console.log("esta vacio...");
+			mostrarAlerta();
 		} else {
 			console.log("si hay algo...");
 		}
+	}
+
+	function mostrarAlerta() {
+		// generar el mensaje de error
+		const error = document.createElement("p");
+		error.textContent = "Todos los campos son obligatorios";
+		console.log(error);
 	}
 });
