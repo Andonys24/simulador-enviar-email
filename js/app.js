@@ -13,17 +13,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	function validarCampo(e) {
 		if (e.target.value.trim() === "") {
 			mostrarAlerta(`El campo ${e.target.id} es obligatorio`, e.target.parentElement);
-		} else {
-			console.log("si hay algo...");
+			return;
 		}
+		limpiarAlerta(e.target.parentElement);
 	}
 
 	function mostrarAlerta(mensaje, referencia) {
 		// comprobar si ya existe una alerta
-		const alerta = referencia.querySelector(".bg-red-600");
-		if (alerta) {
-			alerta.remove();
-		}
+		limpiarAlerta(referencia);
+
 		// generar el mensaje de error
 		const error = document.createElement("p");
 		error.textContent = mensaje;
@@ -31,5 +29,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		// inyectar el error al formulario
 		referencia.appendChild(error);
+	}
+
+	function limpiarAlerta(referencia) {
+		// comprobar si ya existe una alerta
+		const alerta = referencia.querySelector(".bg-red-600");
+		if (alerta) {
+			alerta.remove();
+		}
 	}
 });
