@@ -11,11 +11,18 @@ document.addEventListener("DOMContentLoaded", function () {
 	inputMensaje.addEventListener("blur", validarCampo);
 
 	function validarCampo(e) {
+		const elementoPadre = e.target.parentElement;
 		if (e.target.value.trim() === "") {
-			mostrarAlerta(`El campo ${e.target.id} es obligatorio`, e.target.parentElement);
+			mostrarAlerta(`El campo ${e.target.id} es obligatorio`, elementoPadre);
 			return;
 		}
-		limpiarAlerta(e.target.parentElement);
+
+		if (e.target.id === "email" && !validarEmail(e.target.value)) {
+			mostrarAlerta("El Email no es válido", elementoPadre);
+			return;
+		}
+
+		limpiarAlerta(elementoPadre);
 	}
 
 	function mostrarAlerta(mensaje, referencia) {
@@ -37,5 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (alerta) {
 			alerta.remove();
 		}
+	}
+
+	// validar email
+	function validarEmail(email) {
+		const regex = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
+		const resultado = regex.test(email);
+		return resultado;
 	}
 });
