@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const inputEmail = document.querySelector("#email");
 	const inputAsunto = document.querySelector("#asunto");
 	const inputMensaje = document.querySelector("#mensaje");
+	const inputCc = document.querySelector("#cc");
 	const formulario = document.querySelector("#formulario");
 	const btnSubmit = document.querySelector('#formulario button[type="submit"]');
 	const btnReset = document.querySelector('#formulario button[type="reset"]');
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// Asignar eventos
 	inputEmail.addEventListener("input", validarCampo);
+	inputCc.addEventListener("input", comprobarCC);
 	inputAsunto.addEventListener("input", validarCampo);
 	inputMensaje.addEventListener("input", validarCampo);
 	formulario.addEventListener("submit", enviarEmail);
@@ -34,11 +36,33 @@ document.addEventListener("DOMContentLoaded", function () {
 			spinner.classList.remove("flex");
 			spinner.classList.add("hidden");
 			resetFormulario();
+
+			// crear una alerta de exito
+			const alertaExito = document.createElement("p");
+			alertaExito.classList.add(
+				"bg-green-500",
+				"text-white",
+				"p-2",
+				"rounded-lg",
+				"text-center",
+				"mt-10",
+				"font-bold",
+				"text-sm",
+				"uppercase"
+			);
+
+			alertaExito.textContent = "El mensaje se envió correctamente";
+			formulario.appendChild(alertaExito);
+
+			setTimeout(() => {
+				alertaExito.remove();
+			}, 3000);
 		}, 3000);
 	}
 
 	function validarCampo(e) {
 		const elementoPadre = e.target.parentElement;
+
 		if (e.target.value.trim() === "") {
 			mostrarAlerta(`El campo ${e.target.id} es obligatorio`, elementoPadre);
 			datos[e.target.id] = "";
@@ -88,6 +112,28 @@ document.addEventListener("DOMContentLoaded", function () {
 		const regex = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 		const resultado = regex.test(email);
 		return resultado;
+	}
+
+	function comprobarCC(e) {
+		if (e.target.value === "") {
+			delete datos.cc;
+			limpiarAlerta(inputCc.parentElement);
+			comprobarDatos();
+			return;
+		}
+
+		if (!validarEmail(e.target.value)) {
+			mostrarAlerta("El email no es válido", e.target.parentElement, "error");
+			datos.cc = "";
+			comprobarDatos();
+			return;
+		}
+
+		limpiarAlerta(inputCc.parentElement);
+
+		datos[e.target.id] = e.target.value.trim().toLowerCase();
+
+		comprobarDatos();
 	}
 
 	function comprobarDatos() {
