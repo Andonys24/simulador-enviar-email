@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const inputEmail = document.querySelector("#email");
 	const inputAsunto = document.querySelector("#asunto");
 	const inputMensaje = document.querySelector("#mensaje");
+	const formulario = document.querySelector("#formulario");
 
 	// Asignar eventos
 	inputEmail.addEventListener("blur", validarCampo);
@@ -20,7 +21,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	function mostrarAlerta() {
 		// generar el mensaje de error
 		const error = document.createElement("p");
-		error.textContent = "Todos los campos son obligatorios";
-		console.log(error);
+		error.textContent = "Hubo un error...";
+		error.classList.add("bg-red-600", "text-white", "p-2", "text-center");
+
+		// inyectar el error al formulario
+		formulario.appendChild(error);
+		console.log(formulario);
 	}
 });
