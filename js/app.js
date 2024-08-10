@@ -9,12 +9,23 @@ document.addEventListener("DOMContentLoaded", function () {
 	const inputEmail = document.querySelector("#email");
 	const inputAsunto = document.querySelector("#asunto");
 	const inputMensaje = document.querySelector("#mensaje");
+	const formulario = document.querySelector("#formulario");
 	const btnSubmit = document.querySelector('#formulario button[type="submit"]');
+	const btnReset = document.querySelector('#formulario button[type="reset"]');
 
 	// Asignar eventos
 	inputEmail.addEventListener("input", validarCampo);
 	inputAsunto.addEventListener("input", validarCampo);
 	inputMensaje.addEventListener("input", validarCampo);
+	btnReset.addEventListener("click", (e) => {
+		e.preventDefault();
+		// reiniciar el objeto
+		datos.email = "";
+		datos.asunto = "";
+		datos.mensaje = "";
+		formulario.reset();
+		comprobarDatos();
+	});
 
 	function validarCampo(e) {
 		const elementoPadre = e.target.parentElement;
