@@ -12,20 +12,30 @@ document.addEventListener("DOMContentLoaded", function () {
 	const formulario = document.querySelector("#formulario");
 	const btnSubmit = document.querySelector('#formulario button[type="submit"]');
 	const btnReset = document.querySelector('#formulario button[type="reset"]');
+	const spinner = document.querySelector("#spinner");
 
 	// Asignar eventos
 	inputEmail.addEventListener("input", validarCampo);
 	inputAsunto.addEventListener("input", validarCampo);
 	inputMensaje.addEventListener("input", validarCampo);
+	formulario.addEventListener("submit", enviarEmail);
 	btnReset.addEventListener("click", (e) => {
 		e.preventDefault();
-		// reiniciar el objeto
-		datos.email = "";
-		datos.asunto = "";
-		datos.mensaje = "";
-		formulario.reset();
-		comprobarDatos();
+		resetFormulario();
 	});
+
+	function enviarEmail(e) {
+		e.preventDefault();
+
+		spinner.classList.add("flex");
+		spinner.classList.remove("hidden");
+
+		setTimeout(() => {
+			spinner.classList.remove("flex");
+			spinner.classList.add("hidden");
+			resetFormulario();
+		}, 3000);
+	}
 
 	function validarCampo(e) {
 		const elementoPadre = e.target.parentElement;
@@ -89,5 +99,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		btnSubmit.classList.remove("opacity-50");
 		btnSubmit.disabled = false;
+	}
+
+	function resetFormulario() {
+		// reiniciar el objeto
+		datos.email = "";
+		datos.asunto = "";
+		datos.mensaje = "";
+		formulario.reset();
+		comprobarDatos();
 	}
 });
